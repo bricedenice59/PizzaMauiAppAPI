@@ -1,0 +1,98 @@
+[
+  {
+    "Name": "Anchovies",
+    "MainImageUrl": "anchovies.png",
+    "PriceWithExcludedVAT": 15.99,
+    "Description": "Enjoy a crispy thin crust pizza topped with tangy tomato sauce, gooey mozzarella cheese, and salty anchovies for a burst of flavour in every bite.",
+    "Ingredients": "Cheese, Tomato sauce, anchovies",
+    "Id": "d620e337-16a6-4e9a-8288-957e71afcbc7"
+  },
+  {
+    "Name": "BBQ",
+    "MainImageUrl": "barbecue.png",
+    "PriceWithExcludedVAT": 14.5,
+    "Description": "Sink your teeth into a delicious barbecue pizza with smoky chicken, sweet corn, red onion, and melted cheddar cheese on a soft and chewy crust.",
+    "Ingredients": "Cheese, Tomato sauce, Chicken,Corn, Red Onions",
+    "Id": "7cad4814-c56a-49f3-baca-933cf0ee931c"
+  },
+  {
+    "Name": "Calzone",
+    "MainImageUrl": "calzone.png",
+    "PriceWithExcludedVAT": 14,
+    "Description": "Indulge in a warm and cheesy calzone filled with spicy pepperoni, fresh spinach, ricotta cheese, and marinara sauce, wrapped in a golden-brown dough.",
+    "Ingredients": "Cheese, Tomato sauce, Ham, Pepperoni, Spinach",
+    "Id": "a07498ed-697c-4dfd-83f2-224dfe1456f2"
+  },
+  {
+    "Name": "4 Cheeses",
+    "MainImageUrl": "cheese4.png",
+    "PriceWithExcludedVAT": 17.99,
+    "Description": "Treat yourself to a pizza 4 cheese with a rich and creamy blend of mozzarella, parmesan, gorgonzola, and provolone cheese on a crispy crust, sprinkled with fresh basil and oregano.",
+    "Ingredients": "Mozzarella, Parmesan, Gorgonzola, Provolone cheese, Cream sauce",
+    "Id": "b526c671-95d8-4275-bfb8-b9aab5dcc5c2"
+  },
+  {
+    "Name": "Green Pesto",
+    "MainImageUrl": "greenpesto.png",
+    "PriceWithExcludedVAT": 12.7,
+    "Description": "Savour a pizza green pesto with a fragrant and nutty sauce made from basil, pine nuts, garlic, and olive oil, topped with sliced tomatoes, mozzarella cheese, and black olives.",
+    "Ingredients": "Cheese, Tomato sauce, Green Basil, Olives",
+    "Id": "bac25db1-3cf4-47ef-8de7-220219f05365"
+  },
+  {
+    "Name": "Hawaiian",
+    "MainImageUrl": "hawaiian.png",
+    "PriceWithExcludedVAT": 13,
+    "Description": "Experience a tropical taste with a pizza hawaiian style, featuring juicy pineapple chunks, tender ham, and melted mozzarella cheese on a tangy tomato sauce and a fluffy crust.",
+    "Ingredients": "Cheese, Tomato sauce, Ham, Pineapple",
+    "Id": "0a99adf4-604a-4aef-9538-12f32bae696b"
+  },
+  {
+    "Name": "Italian",
+    "MainImageUrl": "italianham.png",
+    "PriceWithExcludedVAT": 17.99,
+    "Description": "The classical Italian pizza is a simple and authentic dish, with crispy dough, fresh tomato sauce, fragrant basil, and soft mozzarella cheese.",
+    "Ingredients": "Cheese, Tomato sauce, Italian smoked Ham, Basil",
+    "Id": "48819716-9763-4ed1-af5b-98a6eb853834"
+  },
+  {
+    "Name": "Black Olives",
+    "MainImageUrl": "olives.png",
+    "PriceWithExcludedVAT": 11.5,
+    "Description": "The pizza black olives is a Mediterranean delight, with creamy cheese, garlicky tomato sauce, and briny black olives on a chewy crust.",
+    "Ingredients": "Cheese, Tomato sauce, Black olives, Olive oil",
+    "Id": "0a9a7cef-cee2-46b7-99fc-945976b248d8"
+  },
+  {
+    "Name": "Pepperoni",
+    "MainImageUrl": "pepperoni.png",
+    "PriceWithExcludedVAT": 14,
+    "Description": "The pizza pepperoni is a meaty delight, with stretchy cheese, rich tomato sauce, and spicy pepperoni slices on a golden crust.",
+    "Ingredients": "Cheese, Tomato sauce, Pepperoni, Olive oil",
+    "Id": "26d1a429-7e12-4a96-ad8d-5be3f7c7b61f"
+  },
+  {
+    "Name": "Salmon",
+    "MainImageUrl": "salmon.png",
+    "PriceWithExcludedVAT": 18.5,
+    "Description": "The pizza salmon is a scrumptious delight, with creamy cheese, tangy tomato sauce, and succulent salmon slices on a crispy crust.",
+    "Ingredients": "Cheese, Tomato sauce, Salmon slices.",
+    "Id": "dc48a7ef-4d35-429e-a758-ae5b9dd3488b"
+  },
+  {
+    "Name": "Tuna",
+    "MainImageUrl": "tuna.png",
+    "PriceWithExcludedVAT": 14.99,
+    "Description": "The pizza tuna is a savory treat, with melted cheese, spicy tomato sauce, and flaky tuna chunks on a thin crust.",
+    "Ingredients": "Cheese, Tomato sauce, Tuna chunks.",
+    "Id": "04bc48aa-0fe2-49f2-8aa0-ad266326a586"
+  },
+  {
+    "Name": "Veggie",
+    "MainImageUrl": "veggie.png",
+    "PriceWithExcludedVAT": 11.99,
+    "Description": "The pizza veggie is a colorful feast, with gooey cheese, fresh tomato sauce, and crunchy vegetables on a fluffy crust.",
+    "Ingredients": "Cheese, Tomato sauce, Peppers, Mushrooms, Onions, Olives, Spinach, Broccoli, Artichokes",
+    "Id": "72322eaa-df81-40a4-8dc3-09433f5dbb9e"
+  }
+]

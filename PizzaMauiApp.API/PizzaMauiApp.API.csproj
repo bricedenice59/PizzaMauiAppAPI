@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+      <UserSecretsId>d0b1302b-fbfd-40c8-aacb-7b75d7620a07</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="PizzaMauiApp.API.Core\**" />
+      <Compile Remove="PizzaMauiApp.API.Infrastructure\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="PizzaMauiApp.API.Core\**" />
+      <EmbeddedResource Remove="PizzaMauiApp.API.Infrastructure\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="PizzaMauiApp.API.Core\**" />
+      <Content Remove="PizzaMauiApp.API.Infrastructure\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="PizzaMauiApp.API.Core\**" />
+      <None Remove="PizzaMauiApp.API.Infrastructure\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Core\obj\PizzaMauiApp.API.Core.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Core\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Core\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Infrastructure\obj\PizzaMauiApp.API.Infrastructure.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Infrastructure\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Infrastructure\obj\project.packagespec.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PizzaMauiApp.API.Core\PizzaMauiApp.API.Core.csproj" />
+      <ProjectReference Include="..\PizzaMauiApp.API.Infrastructure\PizzaMauiApp.API.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

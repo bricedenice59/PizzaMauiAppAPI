@@ -17,6 +17,7 @@ public class MappingProfiles : Profile
                 o => o.MapFrom<ProductPicturesUrlResolver>())
             ;
         
+        CreateMap<Core.Models.Identity.UserAddress, UserAddressDto>().ReverseMap();
         CreateMap<CustomerBasketDto, CustomerBasket>();
         CreateMap<BasketItemDto, BasketItem>();
     }

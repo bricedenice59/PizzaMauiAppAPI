@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Dtos;
-using PizzaMauiApp.API.Errors;
+using PizzaMauiApp.API.Helpers.API;
 
 namespace PizzaMauiApp.API.Controllers;
 
@@ -31,15 +31,15 @@ public class AccountsController : BaseApiController
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<ActionResult<UserIdentityDto>> Login(UserLoginDto loginData)
+    public async Task<ApiResponse<UserIdentityDto>> Login(UserLoginDto loginData)
     {
         var user = await _userManager.FindByEmailAsync(loginData.Email);
         if (user == null)
-            return Unauthorized(new ApiResponse(401));
+            return new ApiResponse<UserIdentityDto>(401, "User not found.");
 
         var loginResult = await _signInManager.CheckPasswordSignInAsync(user, loginData.Password, true);
         if(!loginResult.Succeeded)
-            return Unauthorized(new ApiResponse(401));
+            return new ApiResponse<UserIdentityDto>(401, "User found but password does not match");
 
         var userIdentityDto = 
             new UserIdentityDto
@@ -50,21 +50,27 @@ public class AccountsController : BaseApiController
                 Token = _tokenService.CreateToken(user)
             };
         
-        return userIdentityDto;
+        return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
     }
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<ActionResult<UserIdentityDto>> Register(UserRegisterDto registerData)
+    public async Task<ApiResponse<UserIdentityDto>> Register(UserRegisterDto registerData)
     {
-        if (await _userManager.FindByEmailAsync(registerData.Email) != null)
-            return new BadRequestObjectResult(new ApiResponse (400, "Email address is in use"));
+        if(string.IsNullOrEmpty(registerData.Email))
+            return new ApiResponse<UserIdentityDto> (400,"Email address cannot be null or empty");
         
+        if (await _userManager.FindByEmailAsync(registerData.Email) != null)
+            return new ApiResponse<UserIdentityDto>(400,"Email address is in use");
+
+        //create a random username for now
+        Random rand = new Random();
+        var username = registerData.Email.Split('@')[0] +"_"+ rand.Next(0, 1_000_000);
         var user = new User
         {
-            DisplayName = registerData.DisplayName,
-            UserName = registerData.DisplayName,
-            Email = registerData.Email
+            Email = registerData.Email,
+            DisplayName = username,
+            UserName = username
         };
 
         var registerResult = await _userManager.CreateAsync(user, registerData.Password);
@@ -75,16 +81,17 @@ public class AccountsController : BaseApiController
             {
                 sb.AppendLine($"{error.Code}, {error.Description}");
             }
-            return BadRequest(new ApiResponse(400, sb.ToString()));
+            return new ApiResponse<UserIdentityDto>(400,sb.ToString());
         }
    
-        return new UserIdentityDto
+        var userIdentityDto = new UserIdentityDto
         {
             Id = new Guid(user.Id),
             Email = registerData.Email,
             FirstName = user.DisplayName, 
             Token = _tokenService.CreateToken(user)
         };
+        return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
     }
     
     [API.Attributes.Authorize]
@@ -97,36 +104,35 @@ public class AccountsController : BaseApiController
         return new UserIdentityDto
         {
             Email = user!.Email,
-            Token = _tokenService.CreateToken(user),
-            FirstName = user!.DisplayName
+            Token = _tokenService.CreateToken(user)
         };
     }
     
     [HttpGet("emailexists")]
-    public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+    public async Task<ApiResponse<bool>> CheckEmailExistsAsync([FromQuery] string email)
     {
-        return await _userManager.FindByEmailAsync(email) != null;
+        var userFound = await _userManager.FindByEmailAsync(email) != null;
+        return userFound 
+            ? new ApiResponse<bool>(200, userFound) 
+            : new ApiResponse<bool>(401, "User not found");
     }
 
     [API.Attributes.Authorize]
     [HttpGet("address")]
-    public async Task<ActionResult<UserAddressDto>> GetUserAddressById(string id)
+    public async Task<ApiResponse<UserAddressDto>> GetUserAddressById(string id)
     {
-        //var context = HttpContext;
-        //var userFromContext = context.Items["User"] as User;
-        
         var user =  await _userManager.Users.Include(x => x.Address)
             .SingleOrDefaultAsync(x => x.Id == id);
 
         if(user == null)
-            return NotFound(new ApiResponse(401));
+            return new ApiResponse<UserAddressDto>(401, "User not found");
         
-        return _mapper.Map<UserAddress, UserAddressDto>(user.Address);
+        return new ApiResponse<UserAddressDto>(200,_mapper.Map<UserAddress, UserAddressDto>(user.Address));
     }
 
     [API.Attributes.Authorize]
     [HttpPut("address")]
-    public async Task<ActionResult<UserAddressDto>> UpdateUserAddress(UserAddressDto address)
+    public async Task<ApiResponse<UserAddressDto>> UpdateUserAddress(UserAddressDto address)
     {
         var context = HttpContext;
         var userFromContext = context.Items["User"] as User;
@@ -134,14 +140,14 @@ public class AccountsController : BaseApiController
             .SingleOrDefaultAsync(x => x.Email == userFromContext.Email);
         
         if(user == null)
-            return NotFound(new ApiResponse(401));
+            return new ApiResponse<UserAddressDto>(401, "User not found");
         
         user.Address = _mapper.Map<UserAddressDto, UserAddress>(address);
 
         var result = await _userManager.UpdateAsync(user);
 
-        if (result.Succeeded) return Ok(_mapper.Map<UserAddressDto>(user.Address));
-
-        return BadRequest("Problem updating the user");
+        return result.Succeeded 
+            ? new ApiResponse<UserAddressDto>(200,_mapper.Map<UserAddressDto>(user.Address)) 
+            : new ApiResponse<UserAddressDto>(400, "Problem updating the user");
     }
 }

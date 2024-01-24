@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models;
 using PizzaMauiApp.API.Dtos;
+using PizzaMauiApp.API.Helpers.API;
 
 namespace PizzaMauiApp.API.Controllers;
 
@@ -19,11 +20,11 @@ public class PizzaProductsController : BaseApiController
     }
     
     [HttpGet]
-    public async Task<ActionResult<PizzaProductDto>> GetAllProducts()
+    public async Task<ApiResponse<IReadOnlyList<PizzaProductDto>>> GetAllProducts()
     {
         var pizzaProducts = await _productRepository.ListAllAsync();
 
         var pizzaProductsDto = _mapper.Map<IReadOnlyList<PizzaProduct>, IReadOnlyList<PizzaProductDto>>(pizzaProducts);
-        return Ok(pizzaProductsDto);
+        return new ApiResponse<IReadOnlyList<PizzaProductDto>>(200, pizzaProductsDto);
     }
 }

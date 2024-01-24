@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PizzaMauiApp.API.Errors;
+using PizzaMauiApp.API.Helpers.API;
 
 namespace PizzaMauiApp.API.Attributes;
 
@@ -17,6 +17,6 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
         // authorization
         if (context.HttpContext.Items["User"] == null)
-            context.Result = new JsonResult(new ApiResponse(StatusCodes.Status401Unauthorized, "Unauthorized"));
+            context.Result = new JsonResult(new ApiException<string>(StatusCodes.Status401Unauthorized, "Unauthorized"));
     }
 }

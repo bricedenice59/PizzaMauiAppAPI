@@ -19,9 +19,11 @@ Content-Type: application/json
     client.test("Request executed successfully", function () {
         client.assert(response.status === 200, "Response status is not 200");
     });
-    client.test("Request returned token", function () {
-        client.assert(response.body.hasOwnProperty("token"), "Cannot find 'headers' option in response");
-        client.assert(response.body.token != undefined, "token is empty")
+
+    client.test("Account successfully created and token returned ", function () {
+        client.assert(response.body.success === true, "Account has not been created");
+        client.assert(response.body.data.hasOwnProperty("token"), "Cannot find 'token' option in response");
+        client.assert(response.body.data.token != undefined, "token is empty")
     });
 %}
 
@@ -39,10 +41,11 @@ Content-Type: application/json
         client.assert(response.status === 200, "Response status is not 200");
     });
     client.test("Request returned token", function () {
-        client.assert(response.body.hasOwnProperty("token"), "Cannot find 'headers' option in response");
+        client.assert(response.body.data.hasOwnProperty("token"), "Cannot find 'token' option in response");
+        client.assert(response.body.data.token != undefined, "token is empty")
     });
-    client.global.set("auth_token", response.body.token);
-    client.global.set("user_id", response.body.id);
+    client.global.set("auth_token", response.body.data.token);
+    client.global.set("user_id", response.body.data.id);
 %}
 
 ###
@@ -75,12 +78,12 @@ Authorization: Bearer {{auth_token}}
         client.assert(response.status === 200, "Response status is not 200");
     });
     client.test("Address fields have correctly been added", function () {
-        client.assert(response.body.firstName === client.global.get("firstName"), "firstname is not added correctly")
-        client.assert(response.body.lastName === client.global.get("lastName"), "lastName is not added correctly")
-        client.assert(response.body.street === client.global.get("street"), "street is not added correctly")
-        client.assert(response.body.city === client.global.get("city"), "city is not added correctly")
-        client.assert(response.body.state === client.global.get("state"), "state is not added correctly")
-        client.assert(response.body.zipcode === client.global.get("zipcode"), "zipcode is not added correctly")
+        client.assert(response.body.data.firstName === client.global.get("firstName"), "firstname is not added correctly")
+        client.assert(response.body.data.lastName === client.global.get("lastName"), "lastName is not added correctly")
+        client.assert(response.body.data.street === client.global.get("street"), "street is not added correctly")
+        client.assert(response.body.data.city === client.global.get("city"), "city is not added correctly")
+        client.assert(response.body.data.state === client.global.get("state"), "state is not added correctly")
+        client.assert(response.body.data.zipcode === client.global.get("zipcode"), "zipcode is not added correctly")
     });
 %}
 
@@ -108,12 +111,12 @@ Authorization: Bearer {{auth_token}}
         client.assert(response.status === 200, "Response status is not 200");
     });
     client.test("Check address firstName if correctly updated and the other fields should have not changed", function () {
-        client.assert(response.body.firstName === client.global.get("firstName"), "firstname has not been updated!")
-        client.assert(response.body.lastName === client.global.get("lastName"), "lastName should not be updated?")
-        client.assert(response.body.street === client.global.get("street"), "street should not be updated?")
-        client.assert(response.body.city === client.global.get("city"), "city should not be updated?")
-        client.assert(response.body.state === client.global.get("state"), "state should not be updated?")
-        client.assert(response.body.zipcode === client.global.get("zipcode"), "zipcode should not be updated?")
+        client.assert(response.body.data.firstName === client.global.get("firstName"), "firstname has not been updated!")
+        client.assert(response.body.data.lastName === client.global.get("lastName"), "lastName should not be updated?")
+        client.assert(response.body.data.street === client.global.get("street"), "street should not be updated?")
+        client.assert(response.body.data.city === client.global.get("city"), "city should not be updated?")
+        client.assert(response.body.data.state === client.global.get("state"), "state should not be updated?")
+        client.assert(response.body.data.zipcode === client.global.get("zipcode"), "zipcode should not be updated?")
     });
 %}
 
@@ -128,12 +131,12 @@ Authorization: Bearer {{auth_token}}
         client.assert(response.status === 200, "Response status is not 200");
     });
     client.test("Check if address object for a user id is returned", function () {
-        client.assert(response.body.firstname === client.global.get("firstname"), "firstname value is not the one expected")
-        client.assert(response.body.lastName === client.global.get("lastName"), "lastName value is not the one expected")
-        client.assert(response.body.street === client.global.get("street"), "street value is not the one expected")
-        client.assert(response.body.city === client.global.get("city"), "city value is not the one expected")
-        client.assert(response.body.state === client.global.get("state"), "state value is not the one expected")
-        client.assert(response.body.zipcode === client.global.get("zipcode"), "zipcode value is not the one expected")
+        client.assert(response.body.data.firstname === client.global.get("firstname"), "firstname value is not the one expected")
+        client.assert(response.body.data.lastName === client.global.get("lastName"), "lastName value is not the one expected")
+        client.assert(response.body.data.street === client.global.get("street"), "street value is not the one expected")
+        client.assert(response.body.data.city === client.global.get("city"), "city value is not the one expected")
+        client.assert(response.body.data.state === client.global.get("state"), "state value is not the one expected")
+        client.assert(response.body.data.zipcode === client.global.get("zipcode"), "zipcode value is not the one expected")
     });
 
 %}

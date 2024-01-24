@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using PizzaMauiApp.API.Errors;
+using PizzaMauiApp.API.Helpers.API;
 
 namespace PizzaMauiApp.API.Middlewares;
 
@@ -32,8 +32,8 @@ public class ExceptionMiddleware
             context.Response.StatusCode = statusCode;
 
             var response = _hostEnvironment.IsDevelopment()
-                ? new ApiException(statusCode, e.Message, e.StackTrace!)
-                : new ApiException(statusCode, e.Message);
+                ? new ApiException<string>(statusCode, e.Message, e.StackTrace!)
+                : new ApiException<string>(statusCode, e.Message);
 
             var jsonResponse =  JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(jsonResponse);

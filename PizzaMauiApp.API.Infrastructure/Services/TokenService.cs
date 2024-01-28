@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -58,12 +59,32 @@ public class TokenService : ITokenService
     
         return tokenHandler.WriteToken(token);
     }
-    
+
     public User? ValidateToken(string token)
     {
         if (string.IsNullOrEmpty(token)) 
             return null;
+        
+        try
+        {
+            var jwtToken = GetJwtSecurityToken(token);
+            if (jwtToken == null)
+                return null;
+            
+            var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
+            var displayName = jwtToken.Claims.First(x => x.Type == "given_name").Value;
 
+            // return user id from JWT token if validation successful
+            return new User {Email = userEmail, DisplayName = displayName};
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private JwtSecurityToken? GetJwtSecurityToken(string token)
+    {
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
@@ -73,22 +94,47 @@ public class TokenService : ITokenService
                 IssuerSigningKey = _symmetricSecurityKey,
                 ValidateIssuer = false,
                 ValidateAudience = false,
+                ValidateLifetime = true,
                 // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            
-            var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-            var displayName = jwtToken.Claims.First(x => x.Type == "given_name").Value;
-
-            // return user id from JWT token if validation successful
-            return new User {Email = userEmail, DisplayName = displayName};
+            return validatedToken as JwtSecurityToken;
         }
-        catch(Exception)
+        catch
         {
             // return null if validation fails
             return null;
         }
+    }
+    
+    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
+    {
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = _symmetricSecurityKey,
+            ValidateLifetime = false
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        try
+        {
+            return tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken _);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+    
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
     }
 }

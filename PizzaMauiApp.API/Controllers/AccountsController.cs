@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,22 +18,33 @@ public class AccountsController : BaseApiController
     private readonly SignInManager<User> _signInManager;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
+    private readonly IConfiguration _config;
     
     public AccountsController(UserManager<User> userManager,
         SignInManager<User> signInManager,
         ITokenService tokenService,
-        IMapper mapper)
+        IMapper mapper,
+        IConfiguration config)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
         _mapper = mapper;
+        _config = config;
     }
+    
 
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ApiResponse<UserIdentityDto>> Login(UserLoginDto loginData)
     {
+        var refreshTokenValidityInDaysStr = _config["Auth0:RefreshTokenValidityInDays"];
+        if (string.IsNullOrEmpty(refreshTokenValidityInDaysStr))
+            throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
+        
+        if(!double.TryParse(refreshTokenValidityInDaysStr, out double refreshTokenValidityInDays))
+            throw new FormatException("Auth0:RefreshTokenValidityInDays is a wrong double value");
+        
         var user = await _userManager.FindByEmailAsync(loginData.Email);
         if (user == null)
             return new ApiResponse<UserIdentityDto>(401, "User not found.");
@@ -41,13 +53,22 @@ public class AccountsController : BaseApiController
         if(!loginResult.Succeeded)
             return new ApiResponse<UserIdentityDto>(401, "User found but password does not match");
 
+        var token = _tokenService.CreateToken(user);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+        
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(refreshTokenValidityInDays);
+        
+        await _userManager.UpdateAsync(user);
+        
         var userIdentityDto = 
             new UserIdentityDto
             {
                 Id = new Guid(user.Id),
                 Email = loginData.Email, 
                 FirstName = user.DisplayName, 
-                Token = _tokenService.CreateToken(user)
+                Token = token,
+                RefreshToken = refreshToken
             };
         
         return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
@@ -59,6 +80,13 @@ public class AccountsController : BaseApiController
     {
         if(string.IsNullOrEmpty(registerData.Email))
             return new ApiResponse<UserIdentityDto> (400,"Email address cannot be null or empty");
+        
+        var refreshTokenValidityInDaysStr = _config["Auth0:RefreshTokenValidityInDays"];
+        if (string.IsNullOrEmpty(refreshTokenValidityInDaysStr))
+            throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
+        
+        if(!double.TryParse(refreshTokenValidityInDaysStr, out double refreshTokenValidityInDays))
+            throw new FormatException("Auth0:RefreshTokenValidityInDays is a wrong double value");
         
         if (await _userManager.FindByEmailAsync(registerData.Email) != null)
             return new ApiResponse<UserIdentityDto>(400,"Email address is in use");
@@ -72,6 +100,12 @@ public class AccountsController : BaseApiController
             DisplayName = username,
             UserName = username
         };
+        
+        var token = _tokenService.CreateToken(user);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+        
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(refreshTokenValidityInDays);
 
         var registerResult = await _userManager.CreateAsync(user, registerData.Password);
         if (!registerResult.Succeeded)
@@ -89,7 +123,8 @@ public class AccountsController : BaseApiController
             Id = new Guid(user.Id),
             Email = registerData.Email,
             FirstName = user.DisplayName, 
-            Token = _tokenService.CreateToken(user)
+            Token = token,
+            RefreshToken = refreshToken
         };
         return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
     }

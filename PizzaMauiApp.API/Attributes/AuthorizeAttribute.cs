@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -17,6 +18,9 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
         // authorization
         if (context.HttpContext.Items["User"] == null)
+        {
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             context.Result = new JsonResult(new ApiException<string>(StatusCodes.Status401Unauthorized, "Unauthorized"));
+        }
     }
 }

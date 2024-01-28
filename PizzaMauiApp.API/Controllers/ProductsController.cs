@@ -19,6 +19,7 @@ public class PizzaProductsController : BaseApiController
         _mapper = mapper;
     }
     
+    [API.Attributes.Authorize]
     [HttpGet]
     public async Task<ApiResponse<IReadOnlyList<PizzaProductDto>>> GetAllProducts()
     {

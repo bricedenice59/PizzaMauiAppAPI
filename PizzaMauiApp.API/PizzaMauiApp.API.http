@@ -23,7 +23,9 @@ Content-Type: application/json
     client.test("Account successfully created and token returned ", function () {
         client.assert(response.body.success === true, "Account has not been created");
         client.assert(response.body.data.hasOwnProperty("token"), "Cannot find 'token' option in response");
-        client.assert(response.body.data.token != undefined, "token is empty")
+        client.assert(response.body.data.hasOwnProperty("refreshToken"), "Cannot find 'refreshToken' option in response");
+        client.assert(response.body.data.token != undefined, "access token is empty")
+        client.assert(response.body.data.refreshToken != undefined, "refresh token is empty")
     });
 %}
 
@@ -42,7 +44,9 @@ Content-Type: application/json
     });
     client.test("Request returned token", function () {
         client.assert(response.body.data.hasOwnProperty("token"), "Cannot find 'token' option in response");
-        client.assert(response.body.data.token != undefined, "token is empty")
+        client.assert(response.body.data.hasOwnProperty("refreshToken"), "Cannot find 'refreshToken' option in response");
+        client.assert(response.body.data.token != undefined, "access token is empty")
+        client.assert(response.body.data.refreshToken != undefined, "refresh token is empty")
     });
     client.global.set("auth_token", response.body.data.token);
     client.global.set("user_id", response.body.data.id);

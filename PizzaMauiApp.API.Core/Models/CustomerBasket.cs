@@ -6,11 +6,11 @@ public class CustomerBasket
     {
         
     }
-    public CustomerBasket(Guid id)
+    public CustomerBasket(string id)
     {
-        Id = id;
+        CustomerId = id;
     }
 
-    public Guid Id { get; set; }
+    public string CustomerId { get; set; }
     public List<BasketItem> Items { get; set; } = new();
 }

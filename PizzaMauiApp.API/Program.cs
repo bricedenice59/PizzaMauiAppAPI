@@ -1,16 +1,14 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PizzaMauiApp.API.Core.Interfaces;
-using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Extensions;
 using PizzaMauiApp.API.Helpers;
 using PizzaMauiApp.API.Infrastructure;
 using PizzaMauiApp.API.Infrastructure.Data;
 using PizzaMauiApp.API.Infrastructure.Identity;
-using PizzaMauiApp.API.Infrastructure.SeedData;
 using PizzaMauiApp.API.Infrastructure.Services;
 using PizzaMauiApp.API.Middlewares;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -34,8 +32,13 @@ var conIdentityStrBuilder = new NpgsqlConnectionStringBuilder(
 };
 var connectionIdentity = conIdentityStrBuilder.ConnectionString;
 
+var redisPassword = builder.Configuration["RedisDbStorePassword"];
+var redisHost = builder.Configuration["DbStoreHost"];
+var redisPort = builder.Configuration["RedisDbStorePort"];
+
 // Add services to the container.
-builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IBasketRepository),(typeof(BasketRepository)));
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddControllers();
@@ -49,6 +52,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionStore));
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseNpgsql(connectionIdentity));
+
+RedisConnection redisConnection = new();
+configuration.GetSection("RedisConnection").Bind(redisConnection);
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
+    ConnectionMultiplexer.Connect(new ConfigurationOptions{
+        EndPoints = {$"{redisHost}:{redisPort}"},
+        AbortOnConnectFail = false,
+        Ssl = redisConnection.IsSSL,
+        Password = redisPassword
+    }));
 
 builder.Services.AddIdentityServices(configuration);
 

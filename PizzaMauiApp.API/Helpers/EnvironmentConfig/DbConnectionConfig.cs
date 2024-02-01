@@ -5,7 +5,7 @@ public class DbConnectionConfig
     public string? Database { get; set; }
     public string? Host { get; set; }
     public string? Port { get; set; }
-    public string? User { get; set; }
+    public string? Username { get; set; }
     public string? Password { get; set; }
 
     public DbConnectionConfig()
@@ -21,7 +21,7 @@ public class DbConnectionConfig
         Database = configuration[$"Db{dbFunctionalityName}Name"];
         Host = configuration[$"Db{dbFunctionalityName}Host"];
         Port = configuration[$"Db{dbFunctionalityName}Port"];
-        User = configuration[$"Db{dbFunctionalityName}User"];
+        Username = configuration[$"Db{dbFunctionalityName}User"];
         Password = configuration[$"Db{dbFunctionalityName}Password"];
     }
     
@@ -31,15 +31,21 @@ public class DbConnectionConfig
         var dbConnectionConfig = DockerUtils.GetSecrets<DbConnectionConfig>(dockerSecretKey);
         if (dbConnectionConfig == null) return;
 
-        Database = dbConnectionConfig.Password;
+        Database = dbConnectionConfig.Database;
         Host = dbConnectionConfig.Host;
         Port = dbConnectionConfig.Port;
-        User = dbConnectionConfig.User;
+        Username = dbConnectionConfig.Username;
         Password = dbConnectionConfig.Password;
+        
+        Console.WriteLine(Database);
+        Console.WriteLine(Host);
+        Console.WriteLine(Port);
+        Console.WriteLine(Username);
+        Console.WriteLine(Password);
     }
 
     public override string ToString()
     {
-        return $"Database={Database};Username={User};Password={Password};Host={Host};Port={Port}";
+        return $"Database={Database};Username={Username};Password={Password};Host={Host};Port={Port}";
     }
 }

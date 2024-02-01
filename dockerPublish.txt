@@ -6,9 +6,9 @@ docker build -t pizzaapi .
 3. edit all secrets json file 
 
 4.create secrets from json files
-docker secret create auth_token secretsStoreDb.json 
-docker secret create auth_token secretsIdentityDb.json 
-docker secret create auth_token secretsRedis.json 
+docker secret create store_db secretsStoreDb.json 
+docker secret create identity_db secretsIdentityDb.json 
+docker secret create redis secretsRedis.json 
 docker secret create auth_token secretsToken.json 
 
 5.docker stack deploy -c docker-compose.yaml myStack

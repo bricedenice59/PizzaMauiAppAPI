@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Dtos;
 using PizzaMauiApp.API.Helpers.API;
+using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 
 namespace PizzaMauiApp.API.Controllers;
 
@@ -18,19 +18,19 @@ public class AccountsController : BaseApiController
     private readonly SignInManager<User> _signInManager;
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
-    private readonly IConfiguration _config;
+    private readonly TokenAuth0Config _tokenConfig;
     
     public AccountsController(UserManager<User> userManager,
         SignInManager<User> signInManager,
         ITokenService tokenService,
         IMapper mapper,
-        IConfiguration config)
+        TokenAuth0Config tokenConfig)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
         _mapper = mapper;
-        _config = config;
+        _tokenConfig = tokenConfig;
     }
     
 
@@ -38,13 +38,6 @@ public class AccountsController : BaseApiController
     [HttpPost("login")]
     public async Task<ApiResponse<UserIdentityDto>> Login(UserLoginDto loginData)
     {
-        var refreshTokenValidityInDaysStr = _config["Auth0:RefreshTokenValidityInDays"];
-        if (string.IsNullOrEmpty(refreshTokenValidityInDaysStr))
-            throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
-        
-        if(!double.TryParse(refreshTokenValidityInDaysStr, out double refreshTokenValidityInDays))
-            throw new FormatException("Auth0:RefreshTokenValidityInDays is a wrong double value");
-        
         var user = await _userManager.FindByEmailAsync(loginData.Email);
         if (user == null)
             return new ApiResponse<UserIdentityDto>(401, "User not found.");
@@ -57,7 +50,7 @@ public class AccountsController : BaseApiController
         var refreshToken = _tokenService.GenerateRefreshToken();
         
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(refreshTokenValidityInDays);
+        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(_tokenConfig.RefreshTokenValidityInDays);
         
         await _userManager.UpdateAsync(user);
         
@@ -81,13 +74,6 @@ public class AccountsController : BaseApiController
         if(string.IsNullOrEmpty(registerData.Email))
             return new ApiResponse<UserIdentityDto> (400,"Email address cannot be null or empty");
         
-        var refreshTokenValidityInDaysStr = _config["Auth0:RefreshTokenValidityInDays"];
-        if (string.IsNullOrEmpty(refreshTokenValidityInDaysStr))
-            throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
-        
-        if(!double.TryParse(refreshTokenValidityInDaysStr, out double refreshTokenValidityInDays))
-            throw new FormatException("Auth0:RefreshTokenValidityInDays is a wrong double value");
-        
         if (await _userManager.FindByEmailAsync(registerData.Email) != null)
             return new ApiResponse<UserIdentityDto>(400,"Email address is in use");
 
@@ -105,7 +91,7 @@ public class AccountsController : BaseApiController
         var refreshToken = _tokenService.GenerateRefreshToken();
         
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(refreshTokenValidityInDays);
+        user.RefreshTokenExpiryTime = DateTime.Now.ToUniversalTime().AddDays(_tokenConfig.RefreshTokenValidityInDays);
 
         var registerResult = await _userManager.CreateAsync(user, registerData.Password);
         if (!registerResult.Succeeded)

@@ -2,10 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models.Identity;
+using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 
 namespace PizzaMauiApp.API.Infrastructure.Services;
 
@@ -15,23 +15,11 @@ public class TokenService : ITokenService
     private readonly double _expirationDelay;
     private readonly string _issuer;
     
-    public TokenService(IConfiguration config)
+    public TokenService(TokenAuth0Config tokenConfig)
     {
-        var auth0Secret = config["Auth0Secret"];
-        var auth0Issuer = config["Auth0Issuer"];
-        var auth0TokenExpirationDelay = config["Auth0:TokenExpirationDelay"];
-        if (string.IsNullOrEmpty(auth0Secret))
-            throw new ArgumentNullException("Setting is missing: Auth0:Secret; Add Auth0Secret key in dotnet user-secrets for this project");
-        
-        if (string.IsNullOrEmpty(auth0Issuer))
-            throw new ArgumentNullException("Setting is missing: Auth0:Issuer; Add Auth0Issuer key in dotnet user-secrets for this project");
-
-        if (string.IsNullOrEmpty(auth0TokenExpirationDelay))
-            throw new ArgumentNullException("Setting is missing: Auth0:TokenExpirationDelay");
-        
-        _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(auth0Secret));
-        _issuer = auth0Issuer;
-        _expirationDelay = Convert.ToDouble(auth0TokenExpirationDelay);
+        _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret!));
+        _issuer = tokenConfig.Issuer!;
+        _expirationDelay = Convert.ToDouble(tokenConfig.TokenExpirationDelay);
     }
     
     public string CreateToken(User user)

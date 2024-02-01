@@ -1,0 +1,17 @@
+1.Build docker image
+docker build -t pizzaapi .
+
+2.docker swarm init
+
+3. edit all secrets json file 
+
+4.create secrets from json files
+docker secret create auth_token secretsStoreDb.json 
+docker secret create auth_token secretsIdentityDb.json 
+docker secret create auth_token secretsRedis.json 
+docker secret create auth_token secretsToken.json 
+
+5.docker stack deploy -c docker-compose.yaml myStack
+
+6.To remove the stack instance
+docker stack rm myStack

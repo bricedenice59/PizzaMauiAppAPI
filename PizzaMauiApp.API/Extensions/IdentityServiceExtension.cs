@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using PizzaMauiApp.API.Core.Models.Identity;
+using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure.Identity;
 
 namespace PizzaMauiApp.API.Extensions;
 
 public static class IdentityServiceExtensions
 {
-    public static void AddIdentityServices(this IServiceCollection services,
-        IConfiguration config)
+    public static void AddIdentityServices(this IServiceCollection services, 
+        ConfigurationManager _,
+        TokenAuth0Config config)
     {
         var builder = services.AddIdentityCore<User>();
 
@@ -35,21 +37,15 @@ public static class IdentityServiceExtensions
             // User settings 
             opt.User.RequireUniqueEmail = true;
         });
-        var auth0Secret = config["Auth0Secret"];
-        var auth0Issuer = config["Auth0Issuer"];
-        if (string.IsNullOrEmpty(auth0Secret))
-            throw new ArgumentNullException("Setting is missing: Auth0:Issuer; Add Auth0Secret key in dotnet user-secrets for this project");
-        if (string.IsNullOrEmpty(auth0Issuer))
-            throw new ArgumentNullException("Setting is missing: Auth0:Issuer; Add Auth0Issuer key in dotnet user-secrets for this project");
-        
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(auth0Secret)),
-                    ValidIssuer = auth0Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Secret!)),
+                    ValidIssuer = config.Issuer,
                     ValidateIssuer = true,
                     ValidateAudience = false,
                 };

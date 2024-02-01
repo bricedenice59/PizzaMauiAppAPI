@@ -1,40 +1,54 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Extensions;
 using PizzaMauiApp.API.Helpers;
+using PizzaMauiApp.API.Helpers.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure;
 using PizzaMauiApp.API.Infrastructure.Data;
+using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure.Identity;
 using PizzaMauiApp.API.Infrastructure.Services;
 using PizzaMauiApp.API.Middlewares;
 using StackExchange.Redis;
+using DbConnectionConfig = PizzaMauiApp.API.Helpers.EnvironmentConfig.DbConnectionConfig;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-//build connection string with stored secrets in my local machine: dotnet user-secrets
-//hostname, password from connection strings are not stored as environment variables for obvious purposes
-//ApiUrl is also not stored.
-var conStoreStrBuilder = new NpgsqlConnectionStringBuilder(
-    configuration.GetConnectionString("StoreDbDefaultConnection"))
-{
-    Password = builder.Configuration["DbStorePassword"],
-    Host = builder.Configuration["DbStoreHost"],
-};
-var connectionStore = conStoreStrBuilder.ConnectionString;
+//decode configuration environment variables;
+#if DEBUG
+    var dbStoreConnectionConfig = new DbConnectionConfig(configuration, "Store");
+    var dbStoreIdentityConfig = new DbConnectionConfig(configuration, "Identity");
+    var dbRedisConfig = new DbConnectionConfig(configuration, "Redis");
+#else
+    var dbStoreConnectionConfig = new DbConnectionConfig("store_db");
+    var dbStoreIdentityConfig = new DbConnectionConfig("identity_db");
+    var dbRedisConfig = new DbConnectionConfig("redis");
+#endif
 
-var conIdentityStrBuilder = new NpgsqlConnectionStringBuilder(
-    configuration.GetConnectionString("UserDbDefaultConnection"))
-{
-    Password = builder.Configuration["DbIdentityPassword"],
-    Host = builder.Configuration["DbIdentityHost"],
-};
-var connectionIdentity = conIdentityStrBuilder.ConnectionString;
+var connectionStore = dbStoreConnectionConfig.ToString();
+var connectionIdentity = dbStoreIdentityConfig.ToString();
 
-var redisPassword = builder.Configuration["RedisDbStorePassword"];
-var redisHost = builder.Configuration["DbStoreHost"];
-var redisPort = builder.Configuration["RedisDbStorePort"];
+TokenAuth0Config tokenAuth0Config = new();
+configuration.GetSection("Auth0").Bind(tokenAuth0Config);
+#if DEBUG
+    tokenAuth0Config.Issuer = configuration["Auth0Issuer"];
+    tokenAuth0Config.Secret = configuration["Auth0Secret"];
+#else
+    var tokenManagerSecrets = DockerUtils.GetSecrets<TokenAuth0Config>("auth_token");
+    tokenAuth0Config.Issuer = tokenManagerSecrets?.Issuer;
+    tokenAuth0Config.Secret = tokenManagerSecrets?.Secret;
+#endif
+
+if (string.IsNullOrEmpty(tokenAuth0Config.Issuer))
+    throw new ArgumentNullException("Setting is missing: Auth0:Issuer; Add Auth0Issuer key in dotnet user-secrets or in docker secrets for this project");
+if (string.IsNullOrEmpty(tokenAuth0Config.Secret))
+    throw new ArgumentNullException("Setting is missing: Auth0:Secret; Add Auth0Secret key in dotnet user-secrets or in docker secrets for this project");
+if (tokenAuth0Config.TokenExpirationDelay == 0)
+    throw new ArgumentNullException("Setting is missing: Auth0:TokenExpirationDelay");
+if (tokenAuth0Config.RefreshTokenValidityInDays == 0)
+    throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
+builder.Services.AddSingleton<TokenAuth0Config>(tokenAuth0Config);
 
 // Add services to the container.
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
@@ -53,18 +67,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseNpgsql(connectionIdentity));
 
-RedisConnection redisConnection = new();
-configuration.GetSection("RedisConnection").Bind(redisConnection);
-
 builder.Services.AddSingleton<IConnectionMultiplexer>(option =>
     ConnectionMultiplexer.Connect(new ConfigurationOptions{
-        EndPoints = {$"{redisHost}:{redisPort}"},
+        EndPoints = {$"{dbRedisConfig.Host}:{dbRedisConfig.Port}"},
         AbortOnConnectFail = false,
-        Ssl = redisConnection.IsSSL,
-        Password = redisPassword
+        Ssl = false,
+        Password = dbRedisConfig.Password
     }));
 
-builder.Services.AddIdentityServices(configuration);
+builder.Services.AddIdentityServices(configuration, tokenAuth0Config);
 
 var app = builder.Build();
 

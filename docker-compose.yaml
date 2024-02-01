@@ -1,0 +1,29 @@
+version: "3"
+services:
+  pizzaapi:
+    image: pizzaapi:latest
+    ports:
+      - "8080:80"
+      - "8081:443"
+    environment:
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: "8081"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      STORE_DB_FILE: /run/secrets/store_db
+      IDENTITY_DB_FILE: /run/secrets/identity_db
+      REDIS_FILE: /run/secrets/redis
+      TOKEN_FILE: /run/secrets/auth_token
+    secrets:
+      - store_db
+      - identity_db
+      - auth_token
+      - redis
+secrets:
+  store_db:
+    external: true
+  identity_db:
+    external: true
+  auth_token:
+    external: true
+  redis:
+    external: true

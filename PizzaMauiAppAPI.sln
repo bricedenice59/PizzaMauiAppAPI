@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Core", "Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Infrastructure", "PizzaMauiApp.API.Infrastructure\PizzaMauiApp.API.Infrastructure.csproj", "{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Dtos", "PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj", "{11C2085F-B5E4-4065-A096-400E10066C7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C2085F-B5E4-4065-A096-400E10066C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C2085F-B5E4-4065-A096-400E10066C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C2085F-B5E4-4065-A096-400E10066C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C2085F-B5E4-4065-A096-400E10066C7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -36,12 +36,6 @@ public class DbConnectionConfig
         Port = dbConnectionConfig.Port;
         Username = dbConnectionConfig.Username;
         Password = dbConnectionConfig.Password;
-        
-        Console.WriteLine(Database);
-        Console.WriteLine(Host);
-        Console.WriteLine(Port);
-        Console.WriteLine(Username);
-        Console.WriteLine(Password);
     }
 
     public override string ToString()

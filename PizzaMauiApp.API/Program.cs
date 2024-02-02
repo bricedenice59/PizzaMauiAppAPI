@@ -25,6 +25,7 @@ var configuration = builder.Configuration;
     var dbStoreIdentityConfig = new DbConnectionConfig("identity_db");
     var dbRedisConfig = new DbConnectionConfig("redis");
 #endif
+builder.Services.AddSingleton<DbConnectionConfig>(dbStoreConnectionConfig);
 
 var connectionStore = dbStoreConnectionConfig.ToString();
 var connectionIdentity = dbStoreIdentityConfig.ToString();

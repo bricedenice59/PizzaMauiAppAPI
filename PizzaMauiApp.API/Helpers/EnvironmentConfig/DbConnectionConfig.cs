@@ -29,7 +29,7 @@ public class DbConnectionConfig
     public DbConnectionConfig(string dockerSecretKey)
     {
         var dbConnectionConfig = DockerUtils.GetSecrets<DbConnectionConfig>(dockerSecretKey);
-        if (dbConnectionConfig == null) return;
+        if (dbConnectionConfig is null) return;
 
         Database = dbConnectionConfig.Database;
         Host = dbConnectionConfig.Host;

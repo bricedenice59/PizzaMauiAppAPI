@@ -39,12 +39,12 @@ public class AccountsController : BaseApiController
     public async Task<ApiResponse<UserIdentityDto>> Login(UserLoginDto loginData)
     {
         var user = await _userManager.FindByEmailAsync(loginData.Email);
-        if (user == null)
-            return new ApiResponse<UserIdentityDto>(401, "User not found.");
+        if (user is null)
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status404NotFound, "User not found.");
 
         var loginResult = await _signInManager.CheckPasswordSignInAsync(user, loginData.Password, true);
         if(!loginResult.Succeeded)
-            return new ApiResponse<UserIdentityDto>(401, "User found but password does not match");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status404NotFound, "User found but password does not match");
 
         var token = _tokenService.CreateToken(user);
         var refreshToken = _tokenService.GenerateRefreshToken();
@@ -64,7 +64,7 @@ public class AccountsController : BaseApiController
                 RefreshToken = refreshToken
             };
         
-        return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
+        return new ApiResponse<UserIdentityDto>(StatusCodes.Status200OK, userIdentityDto);
     }
 
     [AllowAnonymous]
@@ -72,10 +72,10 @@ public class AccountsController : BaseApiController
     public async Task<ApiResponse<UserIdentityDto>> Register(UserRegisterDto registerData)
     {
         if(string.IsNullOrEmpty(registerData.Email))
-            return new ApiResponse<UserIdentityDto> (400,"Email address cannot be null or empty");
+            return new ApiResponse<UserIdentityDto> (StatusCodes.Status400BadRequest,"Email address cannot be null or empty");
         
         if (await _userManager.FindByEmailAsync(registerData.Email) != null)
-            return new ApiResponse<UserIdentityDto>(400,"Email address is in use");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest,"Email address is in use");
 
         //create a random username for now
         Random rand = new Random();
@@ -101,7 +101,7 @@ public class AccountsController : BaseApiController
             {
                 sb.AppendLine($"{error.Code}, {error.Description}");
             }
-            return new ApiResponse<UserIdentityDto>(400,sb.ToString());
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest,sb.ToString());
         }
    
         var userIdentityDto = new UserIdentityDto
@@ -112,7 +112,7 @@ public class AccountsController : BaseApiController
             Token = token,
             RefreshToken = refreshToken
         };
-        return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
+        return new ApiResponse<UserIdentityDto>(StatusCodes.Status200OK, userIdentityDto);
     }
     
     [API.Attributes.Authorize]
@@ -134,8 +134,8 @@ public class AccountsController : BaseApiController
     {
         var userFound = await _userManager.FindByEmailAsync(email) != null;
         return userFound 
-            ? new ApiResponse<bool>(200, userFound) 
-            : new ApiResponse<bool>(401, "User not found");
+            ? new ApiResponse<bool>(StatusCodes.Status200OK, userFound) 
+            : new ApiResponse<bool>(StatusCodes.Status404NotFound, "User not found");
     }
 
     [API.Attributes.Authorize]
@@ -145,10 +145,10 @@ public class AccountsController : BaseApiController
         var user =  await _userManager.Users.Include(x => x.Address)
             .SingleOrDefaultAsync(x => x.Id == id);
 
-        if(user == null)
-            return new ApiResponse<UserAddressDto>(401, "User not found");
+        if(user is null)
+            return new ApiResponse<UserAddressDto>(StatusCodes.Status404NotFound, "User not found");
         
-        return new ApiResponse<UserAddressDto>(200,_mapper.Map<UserAddress, UserAddressDto>(user.Address));
+        return new ApiResponse<UserAddressDto>(StatusCodes.Status200OK,_mapper.Map<UserAddress, UserAddressDto>(user.Address));
     }
 
     [API.Attributes.Authorize]
@@ -160,15 +160,15 @@ public class AccountsController : BaseApiController
         var user = await _userManager.Users.Include(x => x.Address)
             .SingleOrDefaultAsync(x => x.Email == userFromContext.Email);
         
-        if(user == null)
-            return new ApiResponse<UserAddressDto>(401, "User not found");
+        if(user is null)
+            return new ApiResponse<UserAddressDto>(StatusCodes.Status404NotFound, "User not found");
         
         user.Address = _mapper.Map<UserAddressDto, UserAddress>(address);
 
         var result = await _userManager.UpdateAsync(user);
 
         return result.Succeeded 
-            ? new ApiResponse<UserAddressDto>(200,_mapper.Map<UserAddressDto>(user.Address)) 
-            : new ApiResponse<UserAddressDto>(400, "Problem updating the user");
+            ? new ApiResponse<UserAddressDto>(StatusCodes.Status200OK,_mapper.Map<UserAddressDto>(user.Address)) 
+            : new ApiResponse<UserAddressDto>(StatusCodes.Status400BadRequest, "Problem updating the user");
     }
 }

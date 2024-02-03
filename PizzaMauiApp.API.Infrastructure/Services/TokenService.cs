@@ -56,7 +56,7 @@ public class TokenService : ITokenService
         try
         {
             var jwtToken = GetJwtSecurityToken(token);
-            if (jwtToken == null)
+            if (jwtToken is null)
                 return null;
             
             var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;

@@ -17,7 +17,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
             return;
 
         // authorization
-        if (context.HttpContext.Items["User"] == null)
+        if (context.HttpContext.Items["User"] is null)
         {
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             context.Result = new JsonResult(new ApiException<string>(StatusCodes.Status401Unauthorized, "Unauthorized"));

@@ -11,7 +11,7 @@ public class StoreContextSeed
 {
     public static async Task SeedAsync(ApplicationDbContext? context, ILoggerFactory loggerFactory)
     {
-        if (context == null) return;
+        if (context is null) return;
 
         var logger = loggerFactory?.CreateLogger<StoreContextSeed>();
 

@@ -29,34 +29,34 @@ public class TokenController : BaseApiController
         string? refreshToken = tokenModel.RefreshToken;
 
         var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
-        if (principal == null)
+        if (principal is null)
         {
-            return new ApiResponse<UserIdentityDto>(400, "Invalid access token or refresh token");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest, "Invalid access token or refresh token");
         }
         
         var claim = principal!.Claims.FirstOrDefault(x=>x.Type == ClaimTypes.GivenName);
-        if(claim == null)
+        if(claim is null)
         {
-            return new ApiResponse<UserIdentityDto>(400, "Claimtype givenName has been found in token");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest, "Claimtype givenName has been found in token");
         }
         if(string.IsNullOrEmpty(claim.Value))
         {
-            return new ApiResponse<UserIdentityDto>(400, "Claimtype givenName is null or empty");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest, "Claimtype givenName is null or empty");
         } 
         
         var user = await _userManager.FindByNameAsync(claim.Value);
         
-        if (user == null)
+        if (user is null)
         {
-            return new ApiResponse<UserIdentityDto>(400, "No user found");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status404NotFound, "No user found");
         }
         if (user.RefreshToken != refreshToken)
         {
-            return new ApiResponse<UserIdentityDto>(400, "Refresh token from database is different than the one passed in parameter");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest, "Refresh token from database is different than the one passed in parameter");
         }
         if (user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            return new ApiResponse<UserIdentityDto>(400, "Refresh token expired");
+            return new ApiResponse<UserIdentityDto>(StatusCodes.Status400BadRequest, "Refresh token expired");
         }
         
         var newToken = _tokenService.CreateToken(user);
@@ -75,7 +75,7 @@ public class TokenController : BaseApiController
                 RefreshToken = newRefreshToken
             };
         
-        return new ApiResponse<UserIdentityDto>(200, userIdentityDto);
+        return new ApiResponse<UserIdentityDto>(StatusCodes.Status200OK, userIdentityDto);
     }
     
     [API.Attributes.Authorize]
@@ -83,13 +83,13 @@ public class TokenController : BaseApiController
     public async Task<ApiResponse<string>> Revoke(string userEmail)
     {
         var user = await _userManager.FindByEmailAsync(userEmail);
-        if (user == null)
-            return new ApiResponse<string>(401, "User not found.");
+        if (user is null)
+            return new ApiResponse<string>(StatusCodes.Status404NotFound, "User not found.");
         
         user.RefreshToken = null;
         await _userManager.UpdateAsync(user);
 
-        return new ApiResponse<string>(204, "No Content");
+        return new ApiResponse<string>(StatusCodes.Status204NoContent, "No Content");
     }
     
 }

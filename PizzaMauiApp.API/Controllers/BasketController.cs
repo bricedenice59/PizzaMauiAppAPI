@@ -24,7 +24,7 @@ public class BasketController : BaseApiController
     {
         var customerBasket = await _basketRepository.GetCustomerBasket(customerId);
         var customBasketDto = _mapper.Map<CustomerBasketDto>(customerBasket);
-        return new ApiResponse<CustomerBasketDto>(200, customBasketDto ?? new CustomerBasketDto{CustomerId = customerId});
+        return new ApiResponse<CustomerBasketDto>(StatusCodes.Status200OK, customBasketDto ?? new CustomerBasketDto{CustomerId = customerId});
     }
 
     [API.Attributes.Authorize]
@@ -33,10 +33,10 @@ public class BasketController : BaseApiController
     {
         var customerBasket = _mapper.Map<CustomerBasket>(basketDto);
         var updatedBasket = await _basketRepository.UpdateCustomerBasket(customerBasket);
-        if(updatedBasket == null)
+        if(updatedBasket is null)
             return new ApiResponse<bool>(400, $"Basket for guid {basketDto.CustomerId} has not been updated");
         
-        return new ApiResponse<bool>(200, true);
+        return new ApiResponse<bool>(StatusCodes.Status200OK, true);
     }
 
     [API.Attributes.Authorize]
@@ -45,7 +45,7 @@ public class BasketController : BaseApiController
     {
         var success = await _basketRepository.DeleteCustomerBasket(customerId);
         return success
-            ? new ApiResponse<bool>(200, success)
-            : new ApiResponse<bool>(400, $"Basket for customerId {customerId} could not be deleted");
+            ? new ApiResponse<bool>(StatusCodes.Status200OK, success)
+            : new ApiResponse<bool>(StatusCodes.Status400BadRequest, $"Basket for customerId {customerId} could not be deleted");
     }
 }

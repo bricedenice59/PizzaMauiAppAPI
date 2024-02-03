@@ -26,6 +26,6 @@ public class PizzaProductsController : BaseApiController
         var pizzaProducts = await _productRepository.ListAllAsync();
 
         var pizzaProductsDto = _mapper.Map<IReadOnlyList<PizzaProduct>, IReadOnlyList<PizzaProductDto>>(pizzaProducts);
-        return new ApiResponse<IReadOnlyList<PizzaProductDto>>(200, pizzaProductsDto);
+        return new ApiResponse<IReadOnlyList<PizzaProductDto>>(StatusCodes.Status200OK, pizzaProductsDto);
     }
 }

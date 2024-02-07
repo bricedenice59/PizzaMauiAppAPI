@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PizzaMauiApp.API.Core.Interfaces;
+using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Extensions;
 using PizzaMauiApp.API.Helpers;
 using PizzaMauiApp.API.Helpers.EnvironmentConfig;
@@ -7,6 +9,7 @@ using PizzaMauiApp.API.Infrastructure;
 using PizzaMauiApp.API.Infrastructure.Data;
 using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure.Identity;
+using PizzaMauiApp.API.Infrastructure.SeedData;
 using PizzaMauiApp.API.Infrastructure.Services;
 using PizzaMauiApp.API.Middlewares;
 using StackExchange.Redis;
@@ -42,13 +45,13 @@ configuration.GetSection("Auth0").Bind(tokenAuth0Config);
 #endif
 
 if (string.IsNullOrEmpty(tokenAuth0Config.Issuer))
-    throw new ArgumentNullException("Setting is missing: Auth0:Issuer; Add Auth0Issuer key in dotnet user-secrets or in docker secrets for this project");
+    throw new ArgumentNullException(nameof(tokenAuth0Config.Issuer),"Setting is missing: Auth0:Issuer; Add Auth0Issuer key in dotnet user-secrets or in docker secrets for this project");
 if (string.IsNullOrEmpty(tokenAuth0Config.Secret))
-    throw new ArgumentNullException("Setting is missing: Auth0:Secret; Add Auth0Secret key in dotnet user-secrets or in docker secrets for this project");
+    throw new ArgumentNullException(nameof(tokenAuth0Config.Secret),"Setting is missing: Auth0:Secret; Add Auth0Secret key in dotnet user-secrets or in docker secrets for this project");
 if (tokenAuth0Config.TokenExpirationDelay == 0)
-    throw new ArgumentNullException("Setting is missing: Auth0:TokenExpirationDelay");
+    throw new ArgumentNullException(nameof(tokenAuth0Config.TokenExpirationDelay),"Setting is missing: Auth0:TokenExpirationDelay");
 if (tokenAuth0Config.RefreshTokenValidityInDays == 0)
-    throw new ArgumentNullException("Setting is missing: Auth0:RefreshTokenValidityInDays");
+    throw new ArgumentNullException(nameof(tokenAuth0Config.RefreshTokenValidityInDays),"Setting is missing: Auth0:RefreshTokenValidityInDays");
 builder.Services.AddSingleton<TokenAuth0Config>(tokenAuth0Config);
 
 // Add services to the container.
@@ -90,12 +93,14 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // var context = services.GetRequiredService<ApplicationDbContext>();
-        // context.Database.EnsureCreated();
-        // await StoreContextSeed.SeedAsync(context, loggerFactory);
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
+        await StoreDbContextSeed.SeedAsync(context, loggerFactory);
         
-        // var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-        // identityContext.Database.EnsureCreated();
+        var userManager = services.GetRequiredService<UserManager<User>>();
+        var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+        await identityContext.Database.MigrateAsync();
+        await IdentityDbContextSeed.SeedAsync(userManager);
     }
     catch (Exception ex)
     {
@@ -118,3 +123,6 @@ app.UseAuthentication();
 app.MapControllers();
 
 app.Run();
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }

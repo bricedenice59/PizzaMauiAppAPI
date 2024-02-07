@@ -17,4 +17,5 @@ PizzaMauiApp.API.Core/bin/
 PizzaMauiApp.API.Core/obj/
 PizzaMauiApp.API.Infrastructure/bin/
 PizzaMauiApp.API.Infrastructure/obj/
-
+PizzaMauiApp.API.Tests.Integration/bin/
+PizzaMauiApp.API.Tests.Integration/obj/

@@ -7,13 +7,13 @@ using PizzaMauiApp.API.Infrastructure.Data;
 
 namespace PizzaMauiApp.API.Infrastructure.SeedData;
 
-public class StoreContextSeed
+public class StoreDbContextSeed
 {
     public static async Task SeedAsync(ApplicationDbContext? context, ILoggerFactory loggerFactory)
     {
         if (context is null) return;
 
-        var logger = loggerFactory?.CreateLogger<StoreContextSeed>();
+        var logger = loggerFactory?.CreateLogger<StoreDbContextSeed>();
 
         try
         {

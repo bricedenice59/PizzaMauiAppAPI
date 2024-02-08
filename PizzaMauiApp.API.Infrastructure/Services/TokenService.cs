@@ -22,7 +22,7 @@ public class TokenService : ITokenService
         _expirationDelay = Convert.ToDouble(tokenConfig.TokenExpirationDelay);
     }
     
-    public string CreateToken(User user)
+    public string CreateToken(User user, bool forTestingPurpose = false, int expirationDelayForTestingPurpose = 600)
     {
         var claims = new List<Claim>
         {
@@ -36,7 +36,9 @@ public class TokenService : ITokenService
         {
             Subject = new ClaimsIdentity(claims),
             NotBefore = DateTime.Now.ToUniversalTime(),
-            Expires = DateTime.Now.AddSeconds(_expirationDelay).ToUniversalTime(),
+            Expires = forTestingPurpose 
+                ? DateTime.Now.AddSeconds(expirationDelayForTestingPurpose).ToUniversalTime() //10 mins max by default for testing
+                : DateTime.Now.AddSeconds(_expirationDelay).ToUniversalTime(),
             SigningCredentials = credentials,
             Issuer = _issuer
         };

@@ -1,12 +1,11 @@
 using System.Data.Common;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PizzaMauiApp.API.Helpers.EnvironmentConfig;
+using PizzaMauiApp.API.Core.Interfaces;
+using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Infrastructure.Data;
-using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure.Identity;
 
 namespace PizzaMauiApp.API.Tests.Integration.Fixtures;
@@ -14,12 +13,14 @@ namespace PizzaMauiApp.API.Tests.Integration.Fixtures;
 public class IntegrationTestFixture
 {
     public HttpClient Client => _client;
+    public string Token => _token;
+    
     private readonly HttpClient _client;
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly string _token;
     
     public IntegrationTestFixture()
     {
-        _factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        WebApplicationFactory<Program> factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
@@ -62,7 +63,16 @@ public class IntegrationTestFixture
             });
         });
 
-        _client = _factory.CreateClient();
+        _client = factory.CreateClient();
+
+        //create a valid token for testing; only valid for 10 minutes (check in CreateToken fct)
+        using var scope = factory.Services.CreateScope();
+        {
+            var services = scope.ServiceProvider;
+            var tokenService = services.GetRequiredService<ITokenService>();
+
+            _token = tokenService.CreateToken(new User { DisplayName = "guest", Email = "test@test.com" }, true);
+        }
     }
     
     [CollectionDefinition("integrationTest collection")]

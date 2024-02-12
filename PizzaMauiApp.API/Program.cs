@@ -86,28 +86,32 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<JwtTokensMiddleware>();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+#region For testing purposes, let this code uncommented
 
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        await context.Database.MigrateAsync();
-        await StoreDbContextSeed.SeedAsync(context, loggerFactory);
-        
-        var userManager = services.GetRequiredService<UserManager<User>>();
-        var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-        await identityContext.Database.MigrateAsync();
-        await IdentityDbContextSeed.SeedAsync(userManager);
-    }
-    catch (Exception ex)
-    {
-        var logger = loggerFactory.CreateLogger<Program>();
-        logger.LogError(ex, "An error occured during database creation");
-    }
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+//
+//     try
+//     {
+//         var context = services.GetRequiredService<ApplicationDbContext>();
+//         await context.Database.MigrateAsync();
+//         await StoreDbContextSeed.SeedAsync(context, loggerFactory);
+//         
+//         var userManager = services.GetRequiredService<UserManager<User>>();
+//         var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+//         await identityContext.Database.MigrateAsync();
+//         await IdentityDbContextSeed.SeedAsync(userManager);
+//     }
+//     catch (Exception ex)
+//     {
+//         var logger = loggerFactory.CreateLogger<Program>();
+//         logger.LogError(ex, "An error occured during database creation");
+//     }
+// }
+
+#endregion
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

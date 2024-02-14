@@ -4,6 +4,8 @@ namespace PizzaMauiApp.API.Core.Specifications;
 
 public interface ISpecification<T>
 {
+    bool HasEntityTracking { get; }
+    
     Expression<Func<T, bool>> WhereCriteria { get; }
     
     List<Expression<Func<T, object>>> Includes { get; }

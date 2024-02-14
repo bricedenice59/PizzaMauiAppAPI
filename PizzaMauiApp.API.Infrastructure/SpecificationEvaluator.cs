@@ -34,6 +34,9 @@ public class SpecificationEvaluator<TEntity> where TEntity: BaseModel
             finalQuery = specification.Includes.Aggregate(finalQuery, (current, include) => current.Include(include));
         }
 
+        if(!specification.HasEntityTracking)
+            finalQuery = finalQuery.AsNoTracking();
+
         return finalQuery;
     }
 }

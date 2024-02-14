@@ -20,9 +20,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T: BaseModel
         return await _dbContext.Set<T>().FindAsync(id);
     }
 
-    public async Task<IReadOnlyList<T>> ListAllAsync()
+    public async Task<IReadOnlyList<T>> ListAllAsync(ISpecification<T> specification)
     {
-        return await _dbContext.Set<T>().ToListAsync();
+        var query = ApplySpecification(specification);
+        return await query.ToListAsync();
     }
 
     public async Task<T> GetEntityWithSpecification(ISpecification<T> specification)

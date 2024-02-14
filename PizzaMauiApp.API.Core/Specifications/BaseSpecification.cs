@@ -4,6 +4,7 @@ namespace PizzaMauiApp.API.Core.Specifications;
 
 public class BaseSpecification<T> : ISpecification<T>
 {
+    public bool HasEntityTracking { get; protected set; }
     public Expression<Func<T, bool>> WhereCriteria { get; }
     public List<Expression<Func<T, object>>> Includes { get; } = [];
     public Expression<Func<T, object>> OrderBy { get; private set; }
@@ -14,7 +15,8 @@ public class BaseSpecification<T> : ISpecification<T>
 
     public BaseSpecification()
     {
-        
+        //by default always track entities
+        HasEntityTracking = true;
     }
     
     public BaseSpecification(Expression<Func<T, bool>> criteria)

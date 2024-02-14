@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Core", "Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Infrastructure", "PizzaMauiApp.API.Infrastructure\PizzaMauiApp.API.Infrastructure.csproj", "{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Dtos", "PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj", "{11C2085F-B5E4-4065-A096-400E10066C7A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Tests.Integration", "PizzaMauiApp.API.Tests.Integration\PizzaMauiApp.API.Tests.Integration.csproj", "{9743102F-E48C-434F-9E4D-7C0CF3B8642B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Dtos", "PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj", "{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,13 +28,13 @@ Global
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E74B8702-E90B-4CC0-80AB-4AFEAE4CFF0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11C2085F-B5E4-4065-A096-400E10066C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11C2085F-B5E4-4065-A096-400E10066C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11C2085F-B5E4-4065-A096-400E10066C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11C2085F-B5E4-4065-A096-400E10066C7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

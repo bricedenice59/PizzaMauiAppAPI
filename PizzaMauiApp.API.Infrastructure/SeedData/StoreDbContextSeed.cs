@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using PizzaMauiApp.API.Core.Models;
-using PizzaMauiApp.API.Infrastructure.Data;
+using PizzaMauiApp.API.Infrastructure.DbStore;
 
 namespace PizzaMauiApp.API.Infrastructure.SeedData;
 

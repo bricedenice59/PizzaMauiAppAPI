@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models.Identity;
-using PizzaMauiApp.API.Infrastructure.Data;
+using PizzaMauiApp.API.Infrastructure.DbIdentity;
+using PizzaMauiApp.API.Infrastructure.DbStore;
 using PizzaMauiApp.API.Infrastructure.Identity;
 
 namespace PizzaMauiApp.API.Tests.Integration.Fixtures;

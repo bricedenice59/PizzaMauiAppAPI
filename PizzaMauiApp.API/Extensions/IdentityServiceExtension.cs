@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using PizzaMauiApp.API.Core.Models.Identity;
+using PizzaMauiApp.API.Infrastructure.DbIdentity;
 using PizzaMauiApp.API.Infrastructure.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure.Identity;
 

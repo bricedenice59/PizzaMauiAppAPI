@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaMauiApp.API.Core.Models.Identity;
 
-namespace PizzaMauiApp.API.Infrastructure.Identity;
+namespace PizzaMauiApp.API.Infrastructure.DbIdentity;
 
 public class AppIdentityDbContext : IdentityDbContext<User>
 {

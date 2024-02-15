@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models;
 using PizzaMauiApp.API.Core.Specifications;
-using PizzaMauiApp.API.Infrastructure.Data;
+using PizzaMauiApp.API.Infrastructure.DbStore;
 
 namespace PizzaMauiApp.API.Infrastructure;
 

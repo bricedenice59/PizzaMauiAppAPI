@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Identity\Migrations\" />
+      <Folder Include="DbIdentity\Migrations\" />
     </ItemGroup>
 
 </Project>

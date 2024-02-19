@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>cfb6ef73-68f3-41ac-9d1e-a289fcf3b4b5</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.1.3" />
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PizzaMauiApp.API.Core\PizzaMauiApp.API.Core.csproj" />
+      <ProjectReference Include="..\PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj" />
+      <ProjectReference Include="..\PizzaMauiApp.API.Shared\PizzaMauiApp.API.Shared.csproj" />
+      <ProjectReference Include="..\PizzaMauiApp.RabbitMq.Messages\PizzaMauiApp.RabbitMq.Messages.csproj" />
+    </ItemGroup>
+
+</Project>

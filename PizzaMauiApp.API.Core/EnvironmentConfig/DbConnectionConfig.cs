@@ -1,4 +1,6 @@
-namespace PizzaMauiApp.API.Helpers.EnvironmentConfig;
+using Microsoft.Extensions.Configuration;
+
+namespace PizzaMauiApp.API.Core.EnvironmentConfig;
 
 public class DbConnectionConfig
 {

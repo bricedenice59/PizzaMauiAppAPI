@@ -8,7 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Tests.Integration", "PizzaMauiApp.API.Tests.Integration\PizzaMauiApp.API.Tests.Integration.csproj", "{9743102F-E48C-434F-9E4D-7C0CF3B8642B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Dtos", "PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj", "{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Orders.Kitchen", "PizzaMauiApp.API.Orders.Kitchen\PizzaMauiApp.API.Orders.Kitchen.csproj", "{D30C0B24-C873-4C20-A1EB-C4FD5136BEF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.RabbitMq.Messages", "PizzaMauiApp.RabbitMq.Messages\PizzaMauiApp.RabbitMq.Messages.csproj", "{804C4032-7707-4F70-A6BC-76B441295D1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Dtos", "PizzaMauiApp.API.Dtos\PizzaMauiApp.API.Dtos.csproj", "{C8677400-0F6A-4A77-8181-E3BC8F50A69B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMauiApp.API.Orders", "PizzaMauiApp.API.Orders\PizzaMauiApp.API.Orders.csproj", "{44D337BA-A91C-4F6D-A826-ED4FC6AA0B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +38,21 @@ Global
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9743102F-E48C-434F-9E4D-7C0CF3B8642B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3696F4D-B8D0-4A51-99A4-CBCE9AA32000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30C0B24-C873-4C20-A1EB-C4FD5136BEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30C0B24-C873-4C20-A1EB-C4FD5136BEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30C0B24-C873-4C20-A1EB-C4FD5136BEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30C0B24-C873-4C20-A1EB-C4FD5136BEF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{804C4032-7707-4F70-A6BC-76B441295D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{804C4032-7707-4F70-A6BC-76B441295D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{804C4032-7707-4F70-A6BC-76B441295D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{804C4032-7707-4F70-A6BC-76B441295D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8677400-0F6A-4A77-8181-E3BC8F50A69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8677400-0F6A-4A77-8181-E3BC8F50A69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8677400-0F6A-4A77-8181-E3BC8F50A69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8677400-0F6A-4A77-8181-E3BC8F50A69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D337BA-A91C-4F6D-A826-ED4FC6AA0B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D337BA-A91C-4F6D-A826-ED4FC6AA0B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D337BA-A91C-4F6D-A826-ED4FC6AA0B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D337BA-A91C-4F6D-A826-ED4FC6AA0B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

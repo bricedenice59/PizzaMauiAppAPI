@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PizzaMauiApp.API.Core.EnvironmentConfig;
 using PizzaMauiApp.API.Core.Interfaces;
 using PizzaMauiApp.API.Core.Models.Identity;
 using PizzaMauiApp.API.Extensions;
 using PizzaMauiApp.API.Helpers;
-using PizzaMauiApp.API.Helpers.EnvironmentConfig;
 using PizzaMauiApp.API.Infrastructure;
 using PizzaMauiApp.API.Infrastructure.DbIdentity;
 using PizzaMauiApp.API.Infrastructure.DbStore;
@@ -14,7 +14,7 @@ using PizzaMauiApp.API.Infrastructure.SeedData;
 using PizzaMauiApp.API.Infrastructure.Services;
 using PizzaMauiApp.API.Middlewares;
 using StackExchange.Redis;
-using DbConnectionConfig = PizzaMauiApp.API.Helpers.EnvironmentConfig.DbConnectionConfig;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;

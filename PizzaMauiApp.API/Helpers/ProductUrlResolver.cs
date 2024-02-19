@@ -1,7 +1,7 @@
 using AutoMapper;
+using PizzaMauiApp.API.Core.EnvironmentConfig;
 using PizzaMauiApp.API.Core.Models;
 using PizzaMauiApp.API.Dtos;
-using PizzaMauiApp.API.Helpers.EnvironmentConfig;
 
 namespace PizzaMauiApp.API.Helpers;
 

@@ -1,4 +1,4 @@
-namespace PizzaMauiApp.API.Helpers.EnvironmentConfig;
+namespace PizzaMauiApp.API.Core.EnvironmentConfig;
 
 public class RedisConnectionConfig
 {

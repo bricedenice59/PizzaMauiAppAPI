@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using PizzaMaui.API.Orders.Kitchen.Contracts;
 using PizzaMauiApp.RabbitMq.Messages;
 
 namespace PizzaMaui.API.Orders.Kitchen.Consumers
@@ -20,7 +21,14 @@ namespace PizzaMaui.API.Orders.Kitchen.Consumers
             //Validate the Ticket Data
             //Store to Database
             //Notify the user via Email / SMS
-            await Task.CompletedTask;
+
+            await context.Publish(new KitchenOrderEvent()
+            {
+                CorrelationId = Guid.NewGuid(),
+                Items = context.Message.Items,
+                OrderId = context.Message.OrderId,
+                UserId = context.Message.UserId
+            });
         }
     }
 }

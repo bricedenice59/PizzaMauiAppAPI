@@ -1,0 +1,9 @@
+States:
+
+Ordered => AcceptOrder => BeginCooking => FinishCooking => OrderCompleted
+Ordered => CancelOrder
+
+State Values: 
+OrderId
+CustomerId
+ItemList

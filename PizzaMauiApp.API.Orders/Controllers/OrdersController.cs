@@ -8,11 +8,11 @@ namespace PizzaMauiApp.API.Orders.Controllers;
 
 public class OrdersController : BaseApiController
 {
-    private readonly IBus _bus;
+    private readonly IPublishEndpoint _publishEndpoint;
     
-    public OrdersController(IBus bus)
+    public OrdersController(IPublishEndpoint publishEndpoint)
     {
-        _bus = bus;
+        _publishEndpoint = publishEndpoint;
 
     }
     
@@ -21,7 +21,7 @@ public class OrdersController : BaseApiController
     {
         if (orderDto is not null)
         {
-            await _bus.Publish<IOrderMessage>(new
+            await _publishEndpoint.Publish<IOrderMessage>(new
             {
                 OrderId = orderDto.Id,
                 UserId = orderDto.UserId,

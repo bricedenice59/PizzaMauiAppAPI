@@ -30,4 +30,11 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\PizzaMauiApp.API.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Infrastructure\SeedData\items.json" />
+    </ItemGroup>
+
 </Project>

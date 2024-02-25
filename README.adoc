@@ -1,0 +1,77 @@
+# PizzaMauiApp.API
+
+API endpoints for Pizza Maui App frontend
+
+It uses
+
+* Two (2) Postgres Databases; one for the main store, and one for the identities (users).
+
+* A redis in-memory to deal with users carts.
+
+== Working with Developer Secrets
+
+The API and integration tests work with developer secrets to avoid having secrets in code. 
+
+* To define the secrets open a terminal and navigate to the `api project` folder
+* Initialize the user secrets manager
++
+[source]
+--
+$ dotnet user-secrets init
+--
+
+* Edit `api project`.csproj and add generated GUID from previous command and create <UserSecretsId> element as below:
++
+[source]
+--
+<PropertyGroup>
+      <TargetFramework>net8.0</TargetFramework>
+      <UserSecretsId>GUID here...</UserSecretsId>
+</PropertyGroup>
+--
+
+* Add the 5 necessary secrets to connect to the main store database:
++
+[source]
+--
+$ dotnet user-secrets set "DbStoreHost" "<url to store db>"
+$ dotnet user-secrets set "DbStorePort" "<store db port>"
+$ dotnet user-secrets set "DbStoreName" "<store db name>"
+$ dotnet user-secrets set "DbStoreUser" "<store db user>"
+$ dotnet user-secrets set "DbStorePassword" "<store db password>"
+--
+
+* Add the 5 necessary secrets to connect to the identity database:
++
+[source]
+--
+$ dotnet user-secrets set "DbIdentityHost" "<url to identity db>"
+$ dotnet user-secrets set "DbdentityPort" "<identity db port>"
+$ dotnet user-secrets set "DbdentityName" "<identity db name>"
+$ dotnet user-secrets set "DbdentityUser" "<identity db user>"
+$ dotnet user-secrets set "DbdentityPassword" "<identity db password>"
+--
+
+* Add the 3 necessary secrets to connect to the redis in-memory database:
+
+[source]
+--
+$ dotnet user-secrets set "DbRedisHost" "<url to identity db>"
+$ dotnet user-secrets set "DbRedisPort" "<identity db port>"
+$ dotnet user-secrets set "DbRedisPassword" "<identity db password>"
+--
+
+P.S: I didn't set any default username / database name for my redis db.
+
+* Finally, add these secrets used for JWT Token management:
++
+[source]
+--
+$ dotnet user-secrets set "Auth0Secret" "<api secret key>"
+$ dotnet user-secrets set "Auth0Issuer" "<issuer>"
+--
++
+where 
+
+* `<api secret key>` is the api secret key that is used to create and verify user authentification tokens. You can generate one using `openssl rand -hex 256` on the command line 
+* `<issuer>` is the API Issuer such as `https://www.whatever.com`. It corresponds to the identifier you chose for the API during creation.

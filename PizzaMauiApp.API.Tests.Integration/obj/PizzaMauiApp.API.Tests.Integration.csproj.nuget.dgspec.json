@@ -1,0 +1,225 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.Tests.Integration/PizzaMauiApp.API.Tests.Integration.csproj": {}
+  },
+  "projects": {
+    "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.csproj",
+        "projectName": "PizzaMauiApp.API",
+        "projectPath": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.csproj",
+        "packagesPath": "/Users/bricegrenard/.nuget/packages/",
+        "outputPath": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/bricegrenard/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/bricedenice59/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "PizzaMauiApp.API.Dtos": {
+              "target": "Package",
+              "version": "[0.1.4, )"
+            },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[2.7.20, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "pizzamauiapp.api.core": {
+              "target": "Package",
+              "version": "[0.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.Tests.Integration/PizzaMauiApp.API.Tests.Integration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.Tests.Integration/PizzaMauiApp.API.Tests.Integration.csproj",
+        "projectName": "PizzaMauiApp.API.Tests.Integration",
+        "projectPath": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.Tests.Integration/PizzaMauiApp.API.Tests.Integration.csproj",
+        "packagesPath": "/Users/bricegrenard/.nuget/packages/",
+        "outputPath": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.Tests.Integration/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/bricegrenard/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/bricedenice59/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.csproj": {
+                "projectPath": "/Users/bricegrenard/Desktop/PizzaMauiApp1/PizzaMauiAppAPI/PizzaMauiApp.API/PizzaMauiApp.API.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.12.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Testing": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.9.0, )"
+            },
+            "NSubstitute": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
+            "PizzaMauiApp.API.Dtos": {
+              "target": "Package",
+              "version": "[0.1.4, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.6.6, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.5.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

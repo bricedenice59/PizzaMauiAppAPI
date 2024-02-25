@@ -31,10 +31,27 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\PizzaMauiApp.API.csproj.nuget.dgspec.json" />
-      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="PizzaMauiApp.API\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Infrastructure\SeedData\items.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Tests.Integration\integrationsettings.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Tests.Integration\xunit.runner.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Tests.Integration\obj\PizzaMauiApp.API.Tests.Integration.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Tests.Integration\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="PizzaMauiApp.API.Tests.Integration\obj\project.packagespec.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="PizzaMauiApp.API.Tests.Integration\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="PizzaMauiApp.API.Tests.Integration\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="PizzaMauiApp.API.Tests.Integration\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="PizzaMauiApp.API.Tests.Integration\**" />
     </ItemGroup>
 
 </Project>
